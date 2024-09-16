@@ -53,7 +53,7 @@ def sent_encode(tokenizer, sent):
     return tokenizer.encode(
         sent,
         add_special_tokens=True,
-        max_length=tokenizer.model_max_length,
+        max_length=512,
         truncation=True,
     )
 

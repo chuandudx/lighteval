@@ -120,7 +120,7 @@ class SummaCImager:
 
         self.max_doc_sents = max_doc_sents
         self.max_input_length = 500
-        self.device = device
+        self.device = "mps"
         self.cache = {}
         self.model = None  # Lazy loader
 
