@@ -123,12 +123,16 @@ class Metrics(Enum):
         corpus_level_fn=np.mean,
         higher_is_better=True,
     )
+
+    def compute_mean(x):
+        return np.mean(np.asarray(x).flatten())  # flatten, then average
+
     bleurt = SampleLevelMetric(
         metric_name="bleurt",
-        sample_level_fn=BLEURT.compute,
+        sample_level_fn=BLEURT().compute,
         category=MetricCategory.GENERATIVE,
         use_case=MetricUseCase.TRANSLATION,
-        corpus_level_fn=lambda x: np.mean(x.flatten()),  # flatten, then average
+        corpus_level_fn=compute_mean,  # flatten, then average
         higher_is_better=True,
     )
     byte_perplexity = CorpusLevelMetric(
@@ -175,9 +179,9 @@ class Metrics(Enum):
     )
     extractiveness = SampleLevelMetricGrouping(
         metric_name=["summarization_coverage", "summarization_density", "summarization_compression"],
-        sample_level_fn=Extractiveness(normalize_input=remove_braces,
-                                       normalize_pred=remove_braces_and_strip,
-                                       input_column="text").compute,
+        sample_level_fn=Extractiveness(
+            normalize_input=remove_braces, normalize_pred=remove_braces_and_strip, input_column="text"
+        ).compute,
         category=MetricCategory.GENERATIVE,
         use_case=MetricUseCase.SUMMARIZATION,
         corpus_level_fn={
@@ -225,9 +229,9 @@ class Metrics(Enum):
     )
     faithfulness = SampleLevelMetric(
         metric_name="summac",
-        sample_level_fn=Faithfulness(normalize_input=remove_braces,
-                                       normalize_pred=remove_braces_and_strip,
-                                       input_column="text").compute,
+        sample_level_fn=Faithfulness(
+            normalize_input=remove_braces, normalize_pred=remove_braces_and_strip, input_column="text"
+        ).compute,
         category=MetricCategory.GENERATIVE,
         use_case=MetricUseCase.SUMMARIZATION,
         corpus_level_fn=np.mean,

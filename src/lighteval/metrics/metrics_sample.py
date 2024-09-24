@@ -600,7 +600,8 @@ class Extractiveness:
         self,
         normalize_input: callable = remove_braces,
         normalize_pred: callable = remove_braces_and_strip,
-        input_column: str = "text"):
+        input_column: str = "text",
+    ):
         """
         Extractiveness metric class.
 
@@ -645,10 +646,12 @@ class Extractiveness:
 
 
 class Faithfulness:
-    def __init__(self,
-    normalize_input: callable = remove_braces,
-    normalize_pred: callable = remove_braces_and_strip,
-    input_column: str = "text"):
+    def __init__(
+        self,
+        normalize_input: callable = remove_braces,
+        normalize_pred: callable = remove_braces_and_strip,
+        input_column: str = "text",
+    ):
         """
         Faithfulness metric class.
 
@@ -697,7 +700,7 @@ class BLEURT:
         self.model = AutoModelForSequenceClassification.from_pretrained("Elron/bleurt-tiny-512")
         self.model.eval()
 
-    def compute(self, golds: list[str], predictions: list[str]) -> float:
+    def compute(self, golds: list[str], predictions: list[str], **kwargs) -> float:
         """Uses the stored BLEURT scorer to compute the score on the current sample.
 
         Args:
@@ -711,7 +714,7 @@ class BLEURT:
             predictions = predictions * len(golds)
         scores = self.model(**self.tokenizer(golds, predictions, return_tensors="pt"))[0].squeeze()
 
-        return scores
+        return scores.item()
 
 
 class BLEU:
