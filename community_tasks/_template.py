@@ -24,10 +24,11 @@
 """
 Custom evaluation tasks for lighteval. Copy this file and complete it with the info for your task.
 
-This file generally create just a TASKS_TABLE and TASKS_GROUPS which are then imported by LightEval.
+This file generally creates just a TASKS_TABLE and TASKS_GROUPS which are then imported by LightEval.
 
 Author:
 """
+
 import numpy as np
 from aenum import extend_enum
 
